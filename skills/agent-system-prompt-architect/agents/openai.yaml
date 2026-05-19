@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent System Prompt Architect"
+  short_description: "Generate deployable system prompts for AI agents."
+  default_prompt: "Use $agent-system-prompt-architect to create a deployable system prompt for an agent project."

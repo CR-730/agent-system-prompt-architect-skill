@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+node_modules/
