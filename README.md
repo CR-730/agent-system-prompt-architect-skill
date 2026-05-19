@@ -2,7 +2,7 @@
 
 A Codex/Agent Skill for generating deployable system prompts for AI agents.
 
-This skill focuses on direct system-message output: compact, tool-aware, source-aware, and safe-by-default prompts that can be placed into an agent runtime. It avoids JSON/package wrappers by default and uses references only as composable guidance.
+This skill focuses on direct system-message output: compact, tool-aware, source-aware, and safe-by-default prompts that can be placed into an agent runtime.
 
 ## What It Helps With
 
