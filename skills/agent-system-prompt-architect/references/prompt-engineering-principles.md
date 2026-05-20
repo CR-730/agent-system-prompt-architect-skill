@@ -35,6 +35,7 @@ Do not force all four elements into every prompt. Simple tasks can stay simple.
 5. Prefer positive guidance.
    - State what the agent should do, how it should respond, and what safe alternative to use.
    - Use prohibition-style wording mainly for safety, privacy, irreversible actions, tool misuse, and high-risk boundary cases.
+   - Use fewer abstract prohibitions and more concrete goals, required formats, decision criteria, and alternative behaviors. For example, prefer "When evidence is missing, state the gap and ask for the exact missing source" over a broad warning such as "Do not hallucinate."
 
 6. Define roles for dialogue agents.
    - Specify who the agent is helping, what role it plays, and what tone or interaction pattern fits the task.
