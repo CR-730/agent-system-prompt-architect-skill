@@ -1,3 +1,5 @@
+感谢佬的 star，有问题可以在 issues 跟我提，我会马上跟进!
+
 # Agent System Prompt Architect Skill
 
 A Codex/Agent Skill for generating deployable system prompts for AI agents.
@@ -69,6 +71,7 @@ For exploratory requests, the skill should first return a compact architecture p
 - `research_agent_template.md`: evidence grading, synthesis, and uncertainty handling
 
 The final prompt is expected to synthesize these modules.
+
 
 ## License
 
