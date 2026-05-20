@@ -18,12 +18,12 @@
 - External source families are defined before grounding rules rely on them
 - Common user workflows have compact output templates with section labels and completion criteria
 - Domain boundaries include safe alternative actions, especially for academic, legal, medical, financial, privacy, or destructive-action contexts
-- The final system prompt is compact enough for deployment: prefer 6 top-level sections, use up to 8 only when justified, and merge overlapping retrieval/tool/failure rules
+- The final system prompt is compact enough for deployment, with section grouping treated as a heuristic rather than a fixed path
 - Self-check content is short and focused on the highest-risk failures
 - Domain-specific rules are grounded in user-provided constraints or explicit assumptions, not hidden guesses
 - Ambiguous labels distinguish response language from subject domain; the prompt asks for clarification or states the chosen assumption
-- The draft has been compressed once before delivery to remove repeated safety, retrieval, tool, and failure-handling rules
-- Semantic tool capabilities are grouped into retrieval/read tools, write/update tools, and planning/generation tools when exact runtime specs are unavailable
+- The draft has been compressed once before delivery to remove repeated rules and preserve only sections that change behavior
+- Semantic tool capabilities are grouped only when grouping improves clarity; exact runtime specs keep their needed separations
 - Output templates are compact label lists rather than long per-task policy sections
 - Format-sensitive requirements include compact examples or labels; simple requirements stay zero-shot
 - Optional prompt techniques are selected only when they improve observable behavior; reasoning-heavy prompts use concise visible summaries rather than full hidden reasoning

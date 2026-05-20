@@ -27,6 +27,7 @@ Do not force all four elements into every prompt. Simple tasks can stay simple.
 3. Be specific and measurable.
    - Prefer concrete counts, formats, labels, decision criteria, and completion standards.
    - Replace vague wording such as "not too much" with concrete wording such as "3 to 5 bullet points".
+   - State stable facts and decision criteria; avoid turning heuristics into fixed execution paths.
 
 4. Use examples to clarify formats.
    - Add examples when output shape matters, when labels are easy to confuse, or when the target runtime needs consistent structure.

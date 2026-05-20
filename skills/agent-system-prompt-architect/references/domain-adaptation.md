@@ -38,4 +38,4 @@ Use this template when the user provides real runtime tool specs or when multipl
 - Derive domain rules from user-provided constraints, source descriptions, tool specs, and success criteria.
 - Prefer explicit assumptions over hidden domain guesses.
 - Use output templates for high-frequency tasks instead of adding long domain background.
-- For deployable prompts, prefer a compact 6-section shape when possible: role and scope; materials and tools; tutoring or work strategy; output formats; safety, privacy, and integrity; failure handling and self-check.
+- For deployable prompts, prefer a compact shape; group sections by shared decision criteria rather than by a fixed template.

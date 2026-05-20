@@ -13,9 +13,9 @@ Default to the final system prompt. Add explanation, review notes, or revision n
 2. If important information is missing, either use a clear assumption inside the system prompt or ask for the minimum necessary clarification when guessing would materially change behavior.
 3. Preserve explicit user requirements over defaults.
 4. Honor the user's requested output language. If the user does not specify a language, match the user's language. Internal skill instructions may be English, but generated system prompts, section names, labels, examples, and template headings must use the user's requested or implied language.
-5. Read `references/prompt-engineering-principles.md` before drafting or reviewing a prompt.
-6. Read `references/prompt-techniques.md` when the target agent needs reasoning, planning, tool use, retrieval, multi-step problem solving, high-reliability answers, or format/style stabilization.
-7. Read `references/domain-adaptation.md` when the domain, users, task boundaries, sources, tools, compliance needs, or success criteria are not fully specified.
+5. Use `references/prompt-engineering-principles.md` as the baseline writing checklist.
+6. Use `references/prompt-techniques.md` only when reasoning, planning, tools, retrieval, high reliability, or format/style stability materially changes the prompt.
+7. Use `references/domain-adaptation.md` only for domain gaps that change behavior, boundaries, tools, grounding, or output format.
 8. When the domain is underspecified, ask for the smallest missing set of domain constraints or state explicit assumptions in the generated prompt. Build domain-specific rules from provided constraints, not guesswork.
 9. Select only the capability modules that match the target agent's needed behavior, then read those reference files before drafting.
 
@@ -38,8 +38,8 @@ Use a layered prompt architecture by default. Choose a different order only when
 8. Failure handling, uncertainty, and escalation
 9. Verification and self-check
 
-Apply the prompt-engineering basics from `references/prompt-engineering-principles.md`: start simple, put instructions first, be specific, use examples for required formats, prefer positive guidance, define a role for dialogue agents, and choose few-shot examples only when they improve format or behavior.
-Use prompt techniques from `references/prompt-techniques.md` as optional strategy switches, not default boilerplate. Include a technique only when it changes the target agent's behavior in a useful, testable way.
+Apply the prompt-engineering basics from `references/prompt-engineering-principles.md`: start simple, put instructions first, be specific, use examples for required formats, prefer positive guidance, define a role for dialogue agents, and keep heuristics as decision criteria rather than fixed execution paths.
+Use prompt techniques from `references/prompt-techniques.md` as optional strategy switches. Include a technique only when it changes the target agent's behavior in a useful, testable way.
 Use compact section headings or tags in the output language. Treat reference-file XML tags as internal semantic labels, not text to copy into the final prompt. Use XML-like tags only when the target runtime benefits from them, and localize the tag names when practical.
 Separate fixed policy from variable context. Fixed policy belongs in the system prompt. Dynamic task details belong in variables or user-message templates.
 Prefer concise, high-signal wording. Include background explanation only when it materially improves target-agent behavior.
@@ -49,14 +49,8 @@ Merge repeated rules into the highest-level section that owns them. State a rule
 Define external sources before writing retrieval or grounding rules. For every source family such as "knowledge base", "uploaded notes", or "memory", specify what it means, when it is authoritative, and how to handle missing or conflicting evidence.
 Include task-specific output templates for common workflows. Templates should show the expected sections, field labels, and completion criteria for the target agent's most frequent tasks.
 Prefer compact templates over exhaustive prose. If two sections enforce the same behavior, keep the rule in one section and make the other section point to the concrete output or decision pattern.
-Before final delivery, compress the draft once: merge duplicate rules, remove repeated safety warnings, collapse semantic tool lists into one tool-use policy when exact runtime specs are unavailable, and keep self-checks to one short line.
-Keep the default prompt compact. Prefer 6 top-level sections; use up to 8 only when the target agent's risk, tools, or workflows require it. Merge related policies before drafting:
-- Merge source definitions, retrieval policy, tool-use policy, evidence handling, and retrieval failure handling into one "materials and tools" section when they govern the same behavior.
-- Merge academic integrity, cheating boundaries, and allowed tutoring alternatives into one domain-boundary section.
-- Merge personalization and privacy when both rely on user records, preferences, or learning history.
-- Collapse semantic tool capabilities into retrieval/read tools, write/update tools, and planning/generation tools unless real runtime specs require separate contracts.
-- Keep self-checks as one short sentence or checklist line focused on the highest-risk failures.
-- Prefer one clear output-contract section with compact task templates over separate long sections for every task type. Compress templates to labels, for example: `Mistake review: summary / cause / correct approach / knowledge point / prevention / review advice / save decision`.
+Before final delivery, compress the draft once: merge repeated rules, keep self-checks short, and preserve only sections that change behavior.
+Keep the default prompt compact. Use section count and grouping as heuristics, not fixed paths: combine related source/tool/evidence/failure rules when they share the same decision criteria; keep them separate only when separation improves execution.
 
 ## Capability modules
 Use reference modules as composable mixins, not mutually exclusive domain templates:
@@ -66,7 +60,7 @@ Use reference modules as composable mixins, not mutually exclusive domain templa
 - Read `references/research_agent_template.md` when the target agent needs open-ended research, hypothesis tracking, evidence grading, comparison, synthesis, timelines, or source-aware structured outputs.
 
 Combine modules when the target agent needs multiple capabilities. Keep the generated prompt focused: include the selected module's target behavior, required format, decision criteria, validation checks, and safe fallback actions; omit unrelated module rules.
-When multiple modules produce overlapping guidance, synthesize them into one final section instead of copying each module's section list.
+When multiple modules overlap, synthesize their stable facts and decision criteria instead of copying their section lists.
 
 ## Reasoning control policy
 Use hidden reasoning by default and expose only the reasoning summary needed for the target agent's task.
