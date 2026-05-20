@@ -1,4 +1,4 @@
-感谢佬的 star，有问题可以在 issues 跟我提，我会马上跟进!
+感谢佬的 star，初来乍到可能很多地方不规范，有问题或者建议希望可以在 issues 跟我提，我会马上跟进!
 
 # Agent System Prompt Architect Skill
 
