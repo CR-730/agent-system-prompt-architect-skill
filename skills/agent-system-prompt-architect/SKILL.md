@@ -9,11 +9,11 @@ Turn partial agent requirements into a deployable system prompt for another agen
 Default to the final system prompt. Add explanation, review notes, or revision notes only when the user asks for them.
 
 ## Read order
-1. Identify the target agent's role, users, tasks, tools, boundaries, output style, safety needs, and deployment constraints from the user's request.
-2. If important information is missing, either use a clear assumption inside the system prompt or ask for the minimum necessary clarification when guessing would materially change behavior.
-3. Preserve explicit user requirements over defaults.
-4. Honor the user's requested output language. If the user does not specify a language, match the user's language. Internal skill instructions may be English, but generated system prompts, section names, labels, examples, and template headings must use the user's requested or implied language.
-5. Use `references/prompt-engineering-principles.md` as the baseline writing checklist.
+1. Read `references/prompt-engineering-principles.md` first; use it as the baseline writing checklist for all prompt design decisions.
+2. Identify the target agent's role, users, tasks, tools, boundaries, output style, safety needs, and deployment constraints from the user's request.
+3. If important information is missing, either use a clear assumption inside the system prompt or ask for the minimum necessary clarification when guessing would materially change behavior.
+4. Preserve explicit user requirements over defaults.
+5. Honor the user's requested output language. If the user does not specify a language, match the user's language. Internal skill instructions may be English, but generated system prompts, section names, labels, examples, and template headings must use the user's requested or implied language.
 6. Use `references/prompt-techniques.md` only when reasoning, planning, tools, retrieval, high reliability, or format/style stability materially changes the prompt.
 7. Use `references/domain-adaptation.md` only for domain gaps that change behavior, boundaries, tools, grounding, or output format.
 8. When the domain is underspecified, ask for the smallest missing set of domain constraints or state explicit assumptions in the generated prompt. Build domain-specific rules from provided constraints, not guesswork.
@@ -38,14 +38,36 @@ Use a layered prompt architecture by default. Choose a different order only when
 8. Failure handling, uncertainty, and escalation
 9. Verification and self-check
 
-Apply the prompt-engineering basics from `references/prompt-engineering-principles.md`: start simple, put instructions first, be specific, use examples for required formats, prefer positive guidance, define a role for dialogue agents, and keep heuristics as decision criteria rather than fixed execution paths.
+Apply prompt-engineering basics:
+- start simple and add detail only when it changes behavior
+- put main instructions before context and examples
+- prefer specific, measurable wording over vague advice
+- use examples when output shape or style consistency matters
+- prefer positive guidance and safe alternatives over abstract prohibitions
+- keep heuristics as decision criteria, not fixed execution paths
 Use prompt techniques from `references/prompt-techniques.md` as optional strategy switches. Include a technique only when it changes the target agent's behavior in a useful, testable way.
 Use compact section headings or tags in the output language. Treat reference-file XML tags as internal semantic labels, not text to copy into the final prompt. Use XML-like tags only when the target runtime benefits from them, and localize the tag names when practical.
 Separate fixed policy from variable context. Fixed policy belongs in the system prompt. Dynamic task details belong in variables or user-message templates.
 Prefer concise, high-signal wording. Include background explanation only when it materially improves target-agent behavior.
 Prefer concrete positive guidance over abstract prohibitions. State the target behavior, required format, decision criteria, and safe alternative action. Reserve prohibition-style rules for safety boundaries, privacy constraints, irreversible actions, tool misuse risks, or likely harmful behavior.
-Default to the shortest prompt that preserves role, task boundaries, tool policy, output contract, safety, and failure handling. Avoid repeating the same rule across scope, safety, tools, failure handling, and output sections unless it changes a decision criterion.
-Merge repeated rules into the highest-level section that owns them. State a rule once, then reference it through decision criteria or fallback behavior instead of restating it across tools, safety, and failure handling.
+
+Define the target agent's role name from its responsibility and professional domain, not from a product name, project name, brand name, repository name, or business codename.
+Examples:
+- Wrong: "You are the Xiaohongshu growth agent."
+  Right: "You are a content growth strategy agent."
+- Wrong: "You are the Zuoyebang wrong-question agent."
+  Right: "You are a wrong-question organization agent."
+- Wrong: "You are the Notion knowledge-base agent."
+  Right: "You are an information retrieval and organization agent."
+
+Keep prompts compact:
+- default to the shortest prompt that preserves role, task boundaries, tool policy, output contract, safety, and failure handling
+- avoid repeating the same rule across scope, safety, tools, failure handling, and output sections unless it changes a decision criterion
+- merge repeated rules into the highest-level section that owns them
+- state a rule once, then reference it through decision criteria or fallback behavior instead of restating it
+- keep self-checks short
+- preserve only sections that change behavior
+
 Define external sources before writing retrieval or grounding rules. For every source family such as "knowledge base", "uploaded notes", or "memory", specify what it means, when it is authoritative, and how to handle missing or conflicting evidence.
 Include task-specific output templates for common workflows. Templates should show the expected sections, field labels, and completion criteria for the target agent's most frequent tasks.
 Prefer compact templates over exhaustive prose. If two sections enforce the same behavior, keep the rule in one section and make the other section point to the concrete output or decision pattern.
