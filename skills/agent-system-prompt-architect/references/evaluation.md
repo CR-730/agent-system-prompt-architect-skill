@@ -2,6 +2,7 @@
 
 ## Automatic checks
 - The system prompt includes the sections needed for the target agent's role, scope, context, tools, output contract, safety, failure handling, and self-checks
+- The main instruction appears before context, examples, and detailed constraints
 - All variable slots are either resolved or intentionally preserved
 - No direct contradictions across role, scope, tools, and safety rules
 - Tool instructions distinguish broad capabilities from real runtime tool specs
@@ -24,6 +25,7 @@
 - The draft has been compressed once before delivery to remove repeated safety, retrieval, tool, and failure-handling rules
 - Semantic tool capabilities are grouped into retrieval/read tools, write/update tools, and planning/generation tools when exact runtime specs are unavailable
 - Output templates are compact label lists rather than long per-task policy sections
+- Format-sensitive requirements include compact examples or labels; simple requirements stay zero-shot
 - Complex or multi-tool prompts include a compact tool contract covering name, use case, required inputs, optional inputs, returned fields, side effects, confirmation needs, failure handling, and result checks
 
 ## Safety checks
