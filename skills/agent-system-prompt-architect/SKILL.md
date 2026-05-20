@@ -109,9 +109,10 @@ Always include:
 ## Multi-turn revision protocol
 1. Draft v1
 2. Run the checks from `references/evaluation.md` as prompt-quality checks, not schema checks.
-3. If checks fail, revise the smallest failing section first.
-4. If a revision lowers quality or breaks passing checks, roll back to the last passing prompt text.
-5. Record assumptions, unresolved risks, and requested follow-ups only when the user asks for notes or review output.
+3. Before final delivery, use the evaluation results to revise the draft once: fix missing role/scope/tool/source/output/safety behavior, merge repeated rules, compress long sections, and remove unsupported assumptions.
+4. If checks still fail, revise the smallest failing section first.
+5. If a revision lowers quality or breaks passing checks, roll back to the last passing prompt text.
+6. Record assumptions, unresolved risks, and requested follow-ups only when the user asks for notes or review output.
 
 ## Output quality bar
 The system prompt must be:
