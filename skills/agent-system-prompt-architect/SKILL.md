@@ -1,6 +1,6 @@
 ---
 name: agent-system-prompt-architect
-description: Generates deployable system prompts for AI agents. Use when building, reviewing, revising, or templating system prompts that need clear roles, task boundaries, tool policies, output contracts, safety rules, evidence handling, compact structure, or multi-step workflows.
+description: Use when designing, reviewing, revising, or templating deployable system prompts for agent projects, especially prompts needing clear roles, task boundaries, tool-use rules, evidence handling, output formats, safety behavior, or compact runtime-ready structure.
 ---
 # Agent System Prompt Architect
 
