@@ -16,6 +16,8 @@ This skill helps a code agent design strong system prompts for agent projects, c
 - Handling domain ambiguity without guessing hidden rules
 - Keeping final prompts compact, usually around 6 top-level sections
 - Writing prompt rules with clear target behavior, formats, decision criteria, and fallback actions
+- Applying prompt-engineering standards such as specific instructions, positive guidance, format examples, and measurable success criteria
+- Choosing advanced prompting techniques only when useful, such as few-shot examples, reasoning policies, ReAct-style tool use, or retrieval grounding
 
 ## Repository Layout
 
@@ -31,6 +33,8 @@ agent-system-prompt-architect-skill/
         └── references/
             ├── domain-adaptation.md
             ├── evaluation.md
+            ├── prompt-engineering-principles.md
+            ├── prompt-techniques.md
             ├── rag_template.md
             ├── code_agent_template.md
             ├── support_agent_template.md
@@ -67,6 +71,8 @@ For exploratory requests, the skill should first return a compact architecture p
 
 
 - `domain-adaptation.md`: domain questions, ambiguity handling, and reusable tool contract template
+- `prompt-engineering-principles.md`: baseline prompt-writing standards, including concrete goals, required formats, decision criteria, positive guidance, and safe alternatives
+- `prompt-techniques.md`: when to use advanced techniques such as few-shot examples, reasoning policies, ReAct-style tool use, step-back prompting, or retrieval grounding
 - `rag_template.md`: retrieval, grounding, sources, and citations
 - `code_agent_template.md`: execution, side effects, verification, and rollback
 - `support_agent_template.md`: multi-turn service flow, privacy, approvals, and escalation
