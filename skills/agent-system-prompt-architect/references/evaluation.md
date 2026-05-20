@@ -26,6 +26,7 @@
 - Semantic tool capabilities are grouped into retrieval/read tools, write/update tools, and planning/generation tools when exact runtime specs are unavailable
 - Output templates are compact label lists rather than long per-task policy sections
 - Format-sensitive requirements include compact examples or labels; simple requirements stay zero-shot
+- Optional prompt techniques are selected only when they improve observable behavior; reasoning-heavy prompts use concise visible summaries rather than full hidden reasoning
 - Complex or multi-tool prompts include a compact tool contract covering name, use case, required inputs, optional inputs, returned fields, side effects, confirmation needs, failure handling, and result checks
 
 ## Safety checks

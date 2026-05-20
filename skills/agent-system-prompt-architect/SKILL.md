@@ -14,9 +14,10 @@ Default to the final system prompt. Add explanation, review notes, or revision n
 3. Preserve explicit user requirements over defaults.
 4. Honor the user's requested output language. If the user does not specify a language, match the user's language. Internal skill instructions may be English, but generated system prompts, section names, labels, examples, and template headings must use the user's requested or implied language.
 5. Read `references/prompt-engineering-principles.md` before drafting or reviewing a prompt.
-6. Read `references/domain-adaptation.md` when the domain, users, task boundaries, sources, tools, compliance needs, or success criteria are not fully specified.
-7. When the domain is underspecified, ask for the smallest missing set of domain constraints or state explicit assumptions in the generated prompt. Build domain-specific rules from provided constraints, not guesswork.
-8. Select only the capability modules that match the target agent's needed behavior, then read those reference files before drafting.
+6. Read `references/prompt-techniques.md` when the target agent needs reasoning, planning, tool use, retrieval, multi-step problem solving, high-reliability answers, or format/style stabilization.
+7. Read `references/domain-adaptation.md` when the domain, users, task boundaries, sources, tools, compliance needs, or success criteria are not fully specified.
+8. When the domain is underspecified, ask for the smallest missing set of domain constraints or state explicit assumptions in the generated prompt. Build domain-specific rules from provided constraints, not guesswork.
+9. Select only the capability modules that match the target agent's needed behavior, then read those reference files before drafting.
 
 ## Delivery modes
 Default to outputting only the deployable system prompt content.
@@ -38,6 +39,7 @@ Use a layered prompt architecture by default. Choose a different order only when
 9. Verification and self-check
 
 Apply the prompt-engineering basics from `references/prompt-engineering-principles.md`: start simple, put instructions first, be specific, use examples for required formats, prefer positive guidance, define a role for dialogue agents, and choose few-shot examples only when they improve format or behavior.
+Use prompt techniques from `references/prompt-techniques.md` as optional strategy switches, not default boilerplate. Include a technique only when it changes the target agent's behavior in a useful, testable way.
 Use compact section headings or tags in the output language. Treat reference-file XML tags as internal semantic labels, not text to copy into the final prompt. Use XML-like tags only when the target runtime benefits from them, and localize the tag names when practical.
 Separate fixed policy from variable context. Fixed policy belongs in the system prompt. Dynamic task details belong in variables or user-message templates.
 Prefer concise, high-signal wording. Include background explanation only when it materially improves target-agent behavior.
@@ -127,6 +129,7 @@ If the target runtime cannot combine structured output and citations in the same
 
 ## Reference files
 - `references/prompt-engineering-principles.md`
+- `references/prompt-techniques.md`
 - `references/domain-adaptation.md`
 - `references/template.md`
 - `references/snippets.md`

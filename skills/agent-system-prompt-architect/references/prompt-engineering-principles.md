@@ -1,6 +1,6 @@
 # Prompt Engineering Principles
 
-This reference captures the basic prompt-writing principles used by this skill, adapted from common prompt-engineering guidance such as aneasystone's "提示工程学习笔记".
+This reference captures the basic prompt-writing principles used by this skill, adapted from common prompt-engineering guidance.
 
 Use these principles as a writing and review checklist. Keep the final deployable prompt compact.
 
