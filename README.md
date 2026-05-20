@@ -61,7 +61,6 @@ For exploratory requests, the skill should first return a compact architecture p
 
 ## Design Notes
 
-The skill uses capability modules rather than vertical domain templates:
 
 - `domain-adaptation.md`: domain questions, ambiguity handling, and reusable tool contract template
 - `rag_template.md`: retrieval, grounding, sources, and citations
@@ -69,7 +68,7 @@ The skill uses capability modules rather than vertical domain templates:
 - `support_agent_template.md`: multi-turn service flow, privacy, approvals, and escalation
 - `research_agent_template.md`: evidence grading, synthesis, and uncertainty handling
 
-The final prompt is expected to synthesize these modules, not copy every module section verbatim.
+The final prompt is expected to synthesize these modules.
 
 ## License
 
