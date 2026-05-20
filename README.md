@@ -4,7 +4,7 @@
 
 A Codex/Agent Skill for generating deployable system prompts for AI agents.
 
-This skill focuses on direct system-message output: compact, tool-aware, source-aware, and safe-by-default prompts that can be placed into an agent runtime.
+This skill helps a code agent design strong system prompts for agent projects, covering role definition, task boundaries, tool-use rules, evidence handling, output formats, and safety behavior.
 
 ## What It Helps With
 
