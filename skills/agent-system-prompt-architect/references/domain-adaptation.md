@@ -19,6 +19,7 @@ Answer these questions from the user's request before drafting. If an answer is 
 Clarification priority: ask at most 3 questions first, prioritizing target users, high-frequency tasks, tools and side effects, and hard boundaries.
 Do not fill every checklist item. Resolve only gaps that would change the generated agent's behavior, safety boundary, tool use, source grounding, or output format.
 When a domain label is ambiguous, distinguish response language from subject domain. For example, "Chinese learning assistant" may mean an assistant that answers in Chinese or an assistant for Chinese-language/literature coursework. If unclear, ask one minimal clarification or state the assumption explicitly.
+Treat names as labels, not roles; derive roles from tasks, users, responsibilities, and success criteria, and ask one clarification when the name is the only clue.
 
 ## Tool Contract Template
 Use this template when the user provides real runtime tool specs or when multiple tools need consistent treatment. Keep it compact in the final system prompt.
