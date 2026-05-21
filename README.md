@@ -151,8 +151,6 @@ agent-system-prompt-architect-skill/
 ## 参考
 
 - [Anthropic Skills](https://github.com/anthropics/skills)
-- [planning-with-files](https://github.com/OthmanAdi/planning-with-files)
-- [superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)
 - [Prompt Engineering Notes](https://www.aneasystone.com/archives/2024/01/prompt-engineering-notes.html)
 
 ## License
