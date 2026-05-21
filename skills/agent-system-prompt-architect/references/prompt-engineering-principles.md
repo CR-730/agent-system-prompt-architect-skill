@@ -50,10 +50,39 @@ Do not force all four elements into every prompt. Simple tasks can stay simple.
    - Split broad workflows into short stages or task templates.
    - Use workflow templates only for high-frequency tasks.
 
+9. Favor procedures over declarations.
+   - Write a reusable method the agent can apply across cases, not a fixed answer for one case.
+   - Example, weak (declaration): "Join `orders` to `customers` on `customer_id`, filter `region='EMEA'`, sum `amount`." Useful only for that one query.
+   - Example, strong (procedure): "Identify the entities the user is asking about. Join the relevant tables on the matching id. Apply user-specified filters as conditions. Aggregate the requested numeric column. Return the result as a labeled table."
+   - Treat names from the user's example as request shape, not as fixed schema. Table names, field names, filter values, regions, dates, and metric names are illustrations of what the agent might receive, not defaults it must use. Bake them into the prompt as fixed values only when the user explicitly says they are real runtime facts.
+   - Procedures generalize; one-off declarations bake the wrong abstraction into the prompt.
+
+10. Match specificity to task fragility.
+    - High-freedom wording for tasks where multiple paths are valid and judgment matters.
+    - Low-freedom wording (exact commands, ordered steps, fixed templates) only where mistakes are costly, ordering matters, or the runtime is fragile.
+    - When an open-ended task still benefits from a default sequence, frame it as a default flow with explicit permission to adapt (e.g., "Apply this sequence unless the input calls for a different order"), not as mandatory steps.
+    - Over-specifying a flexible task narrows the agent's judgment without improving outcomes.
+
+11. Provide defaults, not menus.
+    - When several options are technically valid, name one default and give an escape hatch for the known exception.
+    - Example, weak: "You can use library A, B, C, or D depending on context."
+    - Example, strong: "Use library A. If the input is X, use library B instead."
+    - Listing many equally-weighted choices makes the agent stall or pick inconsistently.
+
+## Add only what the agent lacks
+Assume the model already understands common tools, file formats, programming concepts, and standard tasks. Spend tokens on:
+- project-specific facts the model could not know (codebase conventions, gotchas, names that mean different things in different services)
+- decisions the model would otherwise have to guess (which library to default to, which schema is authoritative, what success looks like)
+- failure cases the model would not anticipate without hints
+Do not spend tokens explaining what something is when the model already knows.
+
 ## Review Questions
 
 - Is the instruction at the beginning?
 - Are the task, users, and boundaries specific enough?
 - Is the output format shown with compact labels or examples?
-- Are repeated warnings replaced by target behavior and safe alternatives?
+- Are prohibitions paired with the target behavior or a safe alternative?
+- Are prescribed steps reusable methods rather than one-off answers?
+- Does the level of specificity match the task's fragility, not exceed it?
+- Where multiple valid options exist, is one named as the default?
 - Does every section change behavior, or can it be merged or removed?

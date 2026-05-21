@@ -9,6 +9,8 @@
 - When real tool specs are available, tool contracts include exact names, required inputs, expected output fields, missing-input behavior, post-call checks, conflict handling, and fallback actions
 - When real tool specs are unavailable, the prompt asks for the missing specs or states explicit interface assumptions instead of inventing hidden APIs
 - Semantic tool capabilities are written as behavior rules, not API-looking contracts with invented names, parameters, return fields, or call policies
+- Code-side artifacts are kept out of the prompt: no schema/class/DTO names (e.g. `PushMessageDraft`), no raw field or column names, no pipeline-position labels (`upstream`, `downstream`, `policy module`), no backend-only behaviors (`write to database`, `落库`, `结构化校验失败`). Each such constraint is rewritten as agent-facing behavior; field labels appear only when they are part of the agent's required final output string
+- The role is a real-world professional identity plus a domain (writer, copywriter, advisor, tutor, coach, analyst, designer, etc.), not a pipeline-step verb plus `agent`/`代理` (e.g. `学习提醒文案生成代理`, `risk-scoring agent`) and not a generic wrapper (`smart assistant`, `AI helper`)
 - Data retention behavior is specified when the target agent stores, remembers, exports, or modifies user data; missing required retention policy is marked as a product decision the user must define
 - If the task is factual, uncertainty and grounding rules are present
 - The prompt uses the user's requested or implied language
@@ -20,6 +22,10 @@
 - Domain boundaries include safe alternative actions, especially for academic, legal, medical, financial, privacy, or destructive-action contexts
 - The final system prompt is compact enough for deployment, with section grouping treated as a heuristic rather than a fixed path
 - Self-check content is short and focused on the highest-risk failures
+- Self-check items are specific, observable, and where possible countable (e.g., "the output contains exactly the four required fields", "the risk level matches the input value"); vague checks like "the output is good" are removed or rewritten
+- Prescribed steps are reusable methods the agent can apply across similar inputs, not one-off answers to a single example
+- Where the prompt offers options, one option is named as the default and any escape hatch is bounded by a clear condition; pure menus of equally-weighted choices are removed
+- Specificity is calibrated to fragility: ordered, prescriptive procedures appear only where mistakes are costly, ordering matters, or the runtime is fragile; flexible tasks are written as target behavior plus decision criteria
 - Domain-specific rules are grounded in user-provided constraints or explicit assumptions, not hidden guesses
 - Ambiguous labels distinguish response language from subject domain; the prompt asks for clarification or states the chosen assumption
 - The draft has been compressed once before delivery to remove repeated rules and preserve only sections that change behavior
@@ -47,11 +53,12 @@
 1. Required section coverage
 2. Safety and privacy
 3. Tool contract executability
-4. Duplication and priority clarity
-5. Length and section economy
-6. Output templates and source definitions
-7. Domain assumptions and explicit constraints
-8. Domain fit and style
+4. Runtime isolation (no leaked schema/field/pipeline names) and role grounding
+5. Duplication and priority clarity
+6. Length and section economy
+7. Output templates and source definitions
+8. Domain assumptions and explicit constraints
+9. Domain fit and style
 
 ## Rollback rule
 If a revision lowers any already-passing critical metric, revert to the last passing snapshot before making further edits.

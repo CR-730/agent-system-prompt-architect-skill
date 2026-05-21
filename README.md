@@ -25,6 +25,12 @@ This skill helps a code agent design strong system prompts for agent projects, c
 agent-system-prompt-architect-skill/
 ├── README.md
 ├── LICENSE
+├── scripts/
+│   └── run_skill_evals.py
+├── test/
+│   ├── evals.json
+│   ├── triggers.json
+│   └── README.md
 └── skills/
     └── agent-system-prompt-architect/
         ├── SKILL.md

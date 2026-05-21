@@ -16,8 +16,13 @@ Answer these questions from the user's request before drafting. If an answer is 
 9. Which situations require user confirmation, refusal, fallback, or escalation?
 10. What makes an output successful for this domain?
 
-Clarification priority: ask at most 3 questions first, prioritizing target users, high-frequency tasks, tools and side effects, and hard boundaries.
-Do not fill every checklist item. Resolve only gaps that would change the generated agent's behavior, safety boundary, tool use, source grounding, or output format.
+Clarification priority: ask at most 3 questions first. Prefer this order:
+1. One concrete sample input plus the desired output for the most common task. A real example resolves more ambiguity than any number of checklist answers.
+2. Hard boundaries (privacy, safety, irreversible actions) that change which behaviors are allowed.
+3. Tools the agent may call and their side effects.
+4. Target users and the highest-frequency tasks, if not already revealed by the sample.
+
+Resolve only gaps that would change the generated agent's behavior, safety boundary, tool use, source grounding, or output format. Do not fill every checklist item.
 When a domain label is ambiguous, distinguish response language from subject domain. For example, "Chinese learning assistant" may mean an assistant that answers in Chinese or an assistant for Chinese-language/literature coursework. If unclear, ask one minimal clarification or state the assumption explicitly.
 Treat names as labels, not roles; derive roles from tasks, users, responsibilities, and success criteria, and ask one clarification when the name is the only clue.
 

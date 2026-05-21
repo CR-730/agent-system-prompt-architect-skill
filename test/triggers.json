@@ -1,0 +1,90 @@
+{
+  "skill_name": "agent-system-prompt-architect",
+  "description": "Trigger eval queries for the skill's frontmatter description. The description should make Claude pick this skill on should_trigger queries and pass on should_not_trigger queries. Split into train (60%) and validation (40%) sets to avoid overfitting during description optimization.",
+  "queries": [
+    {
+      "set": "train",
+      "query": "I need to write a system prompt for our internal customer-support agent. Can you help me put one together?",
+      "should_trigger": true,
+      "notes": "Direct, names 'system prompt' explicitly."
+    },
+    {
+      "set": "train",
+      "query": "我们要给一个学习陪伴 agent 写 system prompt，主要是帮中学生整理错题。怎么写？",
+      "should_trigger": true,
+      "notes": "Chinese, explicit 'system prompt' + agent context."
+    },
+    {
+      "set": "train",
+      "query": "Help me draft the instruction my coding assistant should run with. It needs to know which files it can edit and when to run tests.",
+      "should_trigger": true,
+      "notes": "Does not say 'system prompt' but is unambiguously asking for one."
+    },
+    {
+      "set": "train",
+      "query": "review this prompt for our research agent and tell me what's missing — i want it to actually ground its answers in our doc set",
+      "should_trigger": true,
+      "notes": "Casual, lowercase, asks for review/revision of a deployable agent prompt."
+    },
+    {
+      "set": "train",
+      "query": "我有个 PushMessageDraft 的 schema，要让 LLM 输出这个结构。能不能帮我写一段 prompt？",
+      "should_trigger": true,
+      "notes": "Schema-driven request for a deployable prompt."
+    },
+    {
+      "set": "train",
+      "query": "Can you write me a Python function that parses CSV files?",
+      "should_trigger": false,
+      "notes": "Code generation, no agent prompt context."
+    },
+    {
+      "set": "train",
+      "query": "What's the weather in Shanghai right now?",
+      "should_trigger": false,
+      "notes": "Out of scope, no keyword overlap."
+    },
+    {
+      "set": "train",
+      "query": "Help me write a sales email to a prospect who has gone quiet for 3 weeks.",
+      "should_trigger": false,
+      "notes": "Copywriting for a one-off email; not building an agent's system prompt."
+    },
+    {
+      "set": "train",
+      "query": "Translate this paragraph into formal Japanese, please.",
+      "should_trigger": false,
+      "notes": "One-off translation task; no agent prompt context."
+    },
+    {
+      "set": "validation",
+      "query": "I'm building an internal SQL assistant. What should I put in its system message so it doesn't run destructive queries by accident?",
+      "should_trigger": true,
+      "notes": "Asks how to write the system message for an agent, including a safety boundary."
+    },
+    {
+      "set": "validation",
+      "query": "想给法律咨询的智能体写一份角色和边界规范，应该包含哪些部分？",
+      "should_trigger": true,
+      "notes": "Chinese; asks about agent role + boundary specification = system prompt design."
+    },
+    {
+      "set": "validation",
+      "query": "我们 agent 写的提醒文案太像后端，全是字段名，能帮我看看 prompt 怎么改吗？",
+      "should_trigger": true,
+      "notes": "Diagnostic / revision request for a deployed agent prompt — exactly the failure mode this skill targets."
+    },
+    {
+      "set": "validation",
+      "query": "Generate three subject-line options for a Black Friday email campaign.",
+      "should_trigger": false,
+      "notes": "Marketing copy task."
+    },
+    {
+      "set": "validation",
+      "query": "Explain how transformer attention works in simple terms.",
+      "should_trigger": false,
+      "notes": "Concept explanation request."
+    }
+  ]
+}

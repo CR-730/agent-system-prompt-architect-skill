@@ -1,0 +1,94 @@
+{
+  "skill_name": "agent-system-prompt-architect",
+  "description": "Output-quality evals for the prompt architect. Each case feeds a realistic user request to the skill and grades the deployable system prompt the skill produces.",
+  "evals": [
+    {
+      "id": "schema-only-input",
+      "category": "runtime_isolation",
+      "prompt": "我们后端有个 PushMessageDraft 类，字段是 title、content、risk_level、reason。我需要一个 system prompt，让 LLM 根据上游传过来的学习事件和风险评估，输出 PushMessageDraft；不要让它决定 PushPolicy 或写数据库。结构化校验失败时不要硬凑结果。请用中文写。",
+      "expected_output": "A deployable Chinese system prompt that does not leak schema/class/field names, names a real-world professional role (not a verb-plus-代理), and translates each backend constraint into agent-facing behavior.",
+      "assertions": [
+        "The generated system prompt does not contain the substring 'PushMessageDraft'",
+        "The generated system prompt does not contain the substring 'PushPolicy'",
+        "The generated system prompt does not contain the substring 'risk_level'",
+        "The generated system prompt does not contain the substrings '上游', '落库', or '结构化校验失败'",
+        "The role line does not end with '代理' or ' agent' and does not match the pattern 'X生成代理' / 'X-generation agent' where X is a verb phrase",
+        "The role line contains at least one profession-style noun from the set {撰写者, 写作者, 撰稿人, 文案, 编辑, 顾问, 教练, 导师, 设计者, 设计师, 策划, writer, copywriter, editor, advisor, coach, tutor, designer, planner, analyst, counselor}",
+        "The output has a section that describes what to produce (label-based output contract in Chinese), and that section uses natural-language labels (e.g., '提醒标题', '提醒正文') rather than English schema field names",
+        "The risk-level rule is expressed as agent behavior such as 'echo / 原样使用 / 沿用 the input value', not as 'populate risk_level from upstream'",
+        "The missing-input rule asks the agent to say what is missing and skip generation, instead of describing backend validation failure"
+      ]
+    },
+    {
+      "id": "branded-codename-input",
+      "category": "role_grounding",
+      "prompt": "Write a system prompt for our Zuoyebang wrong-question agent. It uses our Zuoyebang question database and helps middle-school students reorganize their wrong-answer history into review notes.",
+      "expected_output": "A deployable system prompt where the role is a real-world professional identity scoped to the wrong-question domain, not the brand name; the Zuoyebang database appears as a knowledge source, not as the role.",
+      "assertions": [
+        "The role line does not use 'Zuoyebang' as the agent's identity (e.g., not 'You are the Zuoyebang ...')",
+        "The role line contains a profession-style noun from the set {tutor, study coach, notes editor, review-notes editor, learning advisor, study companion, study planner, study designer}",
+        "If 'Zuoyebang' appears in the prompt, it appears in a knowledge-source / data-source section, not in the role definition",
+        "The prompt has explicit sections covering at least: role, scope (in-scope and non-goals), output format, and safety / boundary handling for academic shortcut requests",
+        "Domain-boundary handling for 'do my homework / give me the answer' type requests is present and turns the request into tutoring, hints, or practice rather than refusing flatly"
+      ]
+    },
+    {
+      "id": "procedure-over-declaration",
+      "category": "procedure_vs_declaration",
+      "prompt": "Help me write a system prompt for an internal analytics assistant. Our analysts often ask things like: 'Compute Q4 2025 EMEA revenue from orders joined to customers, filtered by region=EMEA, summed on amount.' The prompt should help the assistant handle this kind of request reliably.",
+      "expected_output": "A system prompt that describes a reusable analytical procedure (identify entities, join on id, apply filters, aggregate, format) rather than baking the EMEA / Q4 / amount example into the rules.",
+      "assertions": [
+        "The generated system prompt does not include 'EMEA' as a literal filter value or a literal rule",
+        "The generated system prompt does not include 'Q4 2025' as a literal scope value or rule",
+        "The procedural section is parameterized by the user's request, not the example. The literal strings `orders`, `customers`, `region=EMEA`, `amount`, and `Q4 2025` do not appear as fixed values, rules, or hard-coded references in the generated system prompt. The procedure works for any analytical query of the same shape, whatever phrasing it uses.",
+        "The role is a profession-style identity (e.g., 'data analyst', 'analytics assistant', 'analytical query reviewer') and not a one-off task label",
+        "The output contract describes the format the assistant returns (e.g., a labeled table or summary), independent of the EMEA example"
+      ]
+    },
+    {
+      "id": "abstract-minimal-input",
+      "category": "ask_for_sample",
+      "prompt": "Write me a system prompt for an agent that helps users do stuff with their data.",
+      "expected_output": "Either (a) the architect asks at most 3 clarifying questions, with one of them requesting a concrete sample input and intended output for the most common task, or (b) the architect drafts a prompt that explicitly labels its scope assumption and output assumption inline.",
+      "assertions": [
+        "The response either contains at most 3 clarifying questions OR contains a draft system prompt with an explicit, labeled assumption block",
+        {
+          "text": "At least one question asks the user for a concrete sample input plus the intended output for the most common task",
+          "applies_when": "the response asks one or more clarifying questions to the user instead of producing a draft system prompt"
+        },
+        {
+          "text": "The drafted prompt names a real professional role and a specific domain (not 'helpful assistant', 'AI helper', 'smart agent')",
+          "applies_when": "the response contains a drafted system prompt for the target agent (not just clarification questions)"
+        },
+        {
+          "text": "The drafted prompt is not a long generic-boilerplate dump; it is grounded in the user's stated domain or in a clearly labeled assumed domain",
+          "applies_when": "the response contains a drafted system prompt for the target agent (not just clarification questions)"
+        }
+      ]
+    },
+    {
+      "id": "defaults-not-menus",
+      "category": "defaults_over_menus",
+      "prompt": "Write a system prompt for a customer-support agent. It should be able to look up orders, search the help center knowledge base, and read the user's recent ticket history. We have all three tools available.",
+      "expected_output": "A system prompt that names one default source/tool per task type and gives explicit conditions for falling back to the others, rather than presenting an equal-weighted menu.",
+      "assertions": [
+        "For each task type the agent handles (order lookup, policy question, ticket history), the prompt names one primary source/tool as the default",
+        "If the prompt lists alternative sources/tools, each alternative has an explicit condition for when to use it. A design that names one default per task type and lists no alternatives also satisfies this assertion.",
+        "The role line is a profession-style identity (e.g., 'customer support specialist', '客户服务代表'). A domain qualifier is only required if the user's request specified a domain.",
+        "The prompt does not contain a sentence of the form 'use any of these: A, B, or C depending on context' without a default and conditions"
+      ]
+    },
+    {
+      "id": "specificity-fragility-match",
+      "category": "specificity_calibration",
+      "prompt": "I need a system prompt for an agent that reviews a teammate's pull request and writes a code review. The agent should focus on correctness, security, and readability.",
+      "expected_output": "An open-ended task prompt that uses target behavior plus decision criteria rather than a fixed ordered procedure, since multiple review approaches are valid.",
+      "assertions": [
+        "The review section is written as decision criteria (what counts as a correctness issue, a security issue, a readability issue) rather than as a fixed numbered procedure of mandatory steps",
+        "If the prompt does include any ordered list of steps, the list is presented as a default flow with explicit permission to adapt, not as a strict sequence",
+        "The output format for the review is described with section labels (e.g., '重要问题', '建议', '小问题' or 'Critical', 'Suggestions', 'Nits') and a completion criterion",
+        "The role is a profession-style identity (e.g., 'code reviewer', 'staff engineer reviewing PRs') and not 'PR-review agent' or 'code review 代理'"
+      ]
+    }
+  ]
+}
