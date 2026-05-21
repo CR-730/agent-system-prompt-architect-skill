@@ -1,91 +1,159 @@
-感谢佬的 star，初来乍到可能很多地方不规范，有问题或者建议希望可以在 issues 跟我提，我会马上跟进! 
-
-起因是本人用 codex 写 agent 项目时总是遇到它给 agent 写的提示词一言难尽的问题，并且没有找到其他佬开源的类似的 skill，因此结合一些资料创建了一个让它学会怎么写提示词的 skill 。
-
 # Agent System Prompt Architect Skill
 
-A Codex/Agent Skill for generating deployable system prompts for AI agents.
+感谢佬的 star，初来乍到可能很多地方不规范，有问题或者建议可以在 issues 跟我提，我会尽快跟进。
 
-This skill helps a code agent design strong system prompts for agent projects, covering role definition, task boundaries, tool-use rules, evidence handling, output formats, and safety behavior.
+这是一个让 Codex / code agent 学会为 agent 项目编写高质量系统提示词的 skill。它的目标不是生成一段“看起来很完整”的 prompt，而是生成可以直接放进 system message 的、紧凑、可部署、工具感知、证据感知、边界清楚的 agent 系统提示词。
 
-## What It Helps With
+项目起因是：我在用 Codex 写 agent 项目时，经常遇到它生成的系统提示词角色混乱、工具描述不落地、把 schema 字段写进 prompt、输出一堆不能直接部署的说明。这个 skill 就是为了解决这些具体问题。
 
-- Designing system prompts for new agents
-- Reviewing and revising existing prompts
-- Separating broad tool capabilities from real runtime tool specs
-- Handling domain ambiguity without guessing hidden rules
-- Keeping final prompts compact, usually around 6 top-level sections
-- Writing prompt rules with clear target behavior, formats, decision criteria, and fallback actions
-- Applying prompt-engineering standards such as specific instructions, positive guidance, format examples, and measurable success criteria
-- Choosing advanced prompting techniques only when useful, such as few-shot examples, reasoning policies, ReAct-style tool use, or retrieval grounding
+## 适合什么场景
 
-## Repository Layout
+当你想让 agent 帮你写另一个 agent 的 system prompt 时，可以使用这个 skill，例如：
+
+- 客服 agent、学习助手 agent、研究 agent、代码执行 agent
+- 需要工具调用、检索、引用、保存记录、审批确认的 agent
+- 需要明确输出格式、安全边界、失败处理和自检标准的 agent
+- 需要把产品需求、接口说明、工具能力说明转成可部署提示词的场景
+
+不适合的场景：
+
+- 只想随手写一句普通 prompt
+- 已经有完整系统提示词，只需要改几个文案词
+- 目标不是 agent system prompt，而是营销文案、文章、脚本或普通聊天提示词
+
+## 它主要解决什么问题
+
+很多 agent 写 prompt 时容易出现这些问题：
+
+- 把项目名、品牌名、业务代号当成角色名，例如“你是某某 App agent”
+- 把后端 schema、class 名、字段名、上下游管线词直接写进 system prompt
+- 只有抽象禁令，没有明确目标、输出格式、判断标准和替代行为
+- 明明没有真实工具 schema，却虚构工具名、参数和返回字段
+- 把一段系统提示词写得很长，但没有可执行的任务边界
+- 输出最终 prompt 之前夹带“设计说明”“供你审阅”等不可部署内容
+
+这个 skill 会强制 agent 把这些信息转成面向目标 agent 的行为规则，而不是照搬运行时实现细节。
+
+## 核心能力
+
+- 生成可直接放进 system message 的系统提示词
+- 设计清晰的角色、任务范围、非目标和失败处理
+- 区分“语义工具能力”和“真实运行时工具规格”
+- 对真实工具写可执行工具契约：使用时机、输入、返回、缺参处理、结果校验
+- 在没有真实工具 schema 时，不虚构 API、参数或返回字段
+- 处理资料来源、检索、引用、证据冲突和不确定性
+- 应用 prompt engineering 原则：具体指令、正向引导、格式示例、可衡量成功标准
+- 按需选择高阶提示技术：few-shot、reasoning policy、ReAct-style tool use、retrieval grounding
+- 写完初稿后按 `references/evaluation.md` 内部检查，再压缩和修正
+
+## 安装
+
+推荐按 [.codex/INSTALL.md](.codex/INSTALL.md) 安装，它包含 macOS / Linux / Windows 的 clone、链接、验证、更新和卸载步骤。
+
+快速复制安装：
+
+```powershell
+$dest = "$env:USERPROFILE\.codex\skills\agent-system-prompt-architect"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\skills"
+if (Test-Path $dest) {
+  Write-Error "Skill already exists: $dest"
+  exit 1
+}
+Copy-Item -Recurse -Path .\skills\agent-system-prompt-architect -Destination "$env:USERPROFILE\.codex\skills"
+```
+
+安装后重启 Codex，让它重新发现 skill。
+
+## 使用示例
+
+```text
+请使用 $agent-system-prompt-architect
+
+我想做一个中文学习助手 agent，主要给高中生和大学低年级学生用。
+它需要能解释课程知识点、根据用户上传资料回答问题、整理错题、制定复习计划。
+系统里可能会有检索用户资料、检索课程知识库、保存错题、生成学习计划等工具，
+但我还没有确定真实工具名、参数和返回格式。
+
+帮我写一个可以直接放进 system message 的系统提示词。
+```
+
+如果你只是探索想法，可以这样问：
+
+```text
+请使用 $agent-system-prompt-architect
+
+我想做一个面向企业知识库的问答 agent。
+先帮我判断它的系统提示词应该包含哪些模块，不要急着写完整 prompt。
+```
+
+## 评估
+
+本仓库带有自动化评估用例和 runner，用于比较“使用 skill”和“不使用 skill”的差异。
+
+当前内部基准结果：
+
+- 模型：`mimo-v2.5-pro`
+- 质量评估：with skill 平均通过率 `0.917`，without skill 平均通过率 `0.554`
+- 触发评估：14 / 14 通过
+- 结果文件：`evals-workspace/iteration-006/benchmark.json`
+
+运行 smoke test：
+
+```powershell
+uv sync
+uv run python scripts\run_skill_evals.py --quality --triggers --with-baseline --limit 1 --iteration smoke-001
+```
+
+完整评估说明见 [test/README.md](test/README.md)。
+
+## 仓库结构
 
 ```text
 agent-system-prompt-architect-skill/
-├── README.md
-├── LICENSE
-├── scripts/
-│   └── run_skill_evals.py
+├── .codex/
+│   └── INSTALL.md
+├── skills/
+│   └── agent-system-prompt-architect/
+│       ├── SKILL.md
+│       ├── agents/
+│       │   └── openai.yaml
+│       └── references/
+│           ├── prompt-engineering-principles.md
+│           ├── prompt-techniques.md
+│           ├── domain-adaptation.md
+│           ├── evaluation.md
+│           ├── rag_template.md
+│           ├── code_agent_template.md
+│           ├── support_agent_template.md
+│           ├── research_agent_template.md
+│           ├── snippets.md
+│           └── template.md
 ├── test/
 │   ├── evals.json
 │   ├── triggers.json
 │   └── README.md
-└── skills/
-    └── agent-system-prompt-architect/
-        ├── SKILL.md
-        ├── agents/
-        │   └── openai.yaml
-        └── references/
-            ├── domain-adaptation.md
-            ├── evaluation.md
-            ├── prompt-engineering-principles.md
-            ├── prompt-techniques.md
-            ├── rag_template.md
-            ├── code_agent_template.md
-            ├── support_agent_template.md
-            ├── research_agent_template.md
-            ├── snippets.md
-            └── template.md
+├── scripts/
+│   └── run_skill_evals.py
+├── RELEASE-NOTES.md
+└── README.md
 ```
 
-## Installation
+## 设计思路
 
-Copy the skill folder into your Codex skills directory:
+这个 skill 的核心不是“把规则写多”，而是让 agent 学会在写系统提示词时做几件关键判断：
 
-```powershell
-Copy-Item -Recurse .\skills\agent-system-prompt-architect "$env:USERPROFILE\.codex\skills\agent-system-prompt-architect"
-```
+1. 哪些内容是目标 agent 必须执行的固定规则。
+2. 哪些内容只是用户给出的示例、schema、项目名或运行时实现细节。
+3. 哪些工具信息可以写成真实工具契约，哪些只能写成语义使用规则。
+4. 哪些 prompt engineering 技术真的会改变行为，哪些只是增加长度。
+5. 最终输出是否能直接部署，而不是还需要用户二次清理。
 
-Or for Claude Code-style layouts, copy the same folder into your skills directory:
+## 参考
 
-```bash
-cp -r skills/agent-system-prompt-architect ~/.claude/skills/agent-system-prompt-architect
-```
-
-Restart or reload your agent runtime after installation if required.
-
-## Example Usage
-
-```text
-Use $agent-system-prompt-architect to create a deployable system prompt for a customer support agent.
-```
-
-For exploratory requests, the skill should first return a compact architecture proposal. For direct build requests, it should return system prompt text that can be placed into the target runtime's system-message field.
-
-## Design Notes
-
-
-- `domain-adaptation.md`: domain questions, ambiguity handling, and reusable tool contract template
-- `prompt-engineering-principles.md`: baseline prompt-writing standards, including concrete goals, required formats, decision criteria, positive guidance, and safe alternatives
-- `prompt-techniques.md`: when to use advanced techniques such as few-shot examples, reasoning policies, ReAct-style tool use, step-back prompting, or retrieval grounding
-- `rag_template.md`: retrieval, grounding, sources, and citations
-- `code_agent_template.md`: execution, side effects, verification, and rollback
-- `support_agent_template.md`: multi-turn service flow, privacy, approvals, and escalation
-- `research_agent_template.md`: evidence grading, synthesis, and uncertainty handling
-
-The final prompt is expected to synthesize these modules.
-
+- [Anthropic Skills](https://github.com/anthropics/skills)
+- [planning-with-files](https://github.com/OthmanAdi/planning-with-files)
+- [superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)
+- [Prompt Engineering Notes](https://www.aneasystone.com/archives/2024/01/prompt-engineering-notes.html)
 
 ## License
 
