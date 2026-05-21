@@ -1,10 +1,28 @@
 # Agent System Prompt Architect Skill
 
+[![License: MIT](https://img.shields.io/github/license/CR-730/agent-system-prompt-architect-skill)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/CR-730/agent-system-prompt-architect-skill?label=release)](https://github.com/CR-730/agent-system-prompt-architect-skill/releases)
+[![Skill](https://img.shields.io/badge/Codex-Skill-blue)](skills/agent-system-prompt-architect/SKILL.md)
+[![Docs](https://img.shields.io/badge/docs-中文-brightgreen)](README.md)
+[![Eval](https://img.shields.io/badge/eval-with_skill_0.917-success)](test/README.md)
+
 感谢佬的 star，初来乍到可能很多地方不规范，有问题或者建议可以在 issues 跟我提(非常欢迎)，我会尽快跟进。
 
 这是一个让 Codex / code agent 学会为 agent 项目编写高质量系统提示词的 skill。
 
 起因是我在用 Codex 写 agent 项目时，经常遇到它生成的系统提示词完全不规范的问题，因此结合一些参考资料编写了这个 skill。
+
+## 目录
+
+- [适合什么场景](#适合什么场景)
+- [它主要解决什么问题](#它主要解决什么问题)
+- [核心能力](#核心能力)
+- [安装](#安装)
+- [使用示例](#使用示例)
+- [评估](#评估)
+- [仓库结构](#仓库结构)
+- [设计思路](#设计思路)
+- [参考](#参考)
 
 ## 适合什么场景
 
