@@ -140,7 +140,7 @@ agent-system-prompt-architect-skill/
 
 ## 设计思路
 
-这个 skill 的核心不是“把规则写多”，而是让 agent 学会在写系统提示词时做几件关键判断：
+这个 skill 的核心是让 agent 学会在写系统提示词时做几件关键判断：
 
 1. 哪些内容是目标 agent 必须执行的固定规则。
 2. 哪些内容只是用户给出的示例、schema、项目名或运行时实现细节。
