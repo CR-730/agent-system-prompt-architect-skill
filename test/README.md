@@ -5,7 +5,6 @@ These evals exist for two questions, kept separate so they can be optimized inde
 1. **Triggering** — does the skill's frontmatter `description` cause Claude (or another agent harness) to pick this skill on the right requests and skip it on the wrong ones?
 2. **Output quality** — when the skill is selected, does the deployable system prompt it produces meet the quality bar in `references/evaluation.md`?
 
-The structure follows [agentskills.io / evaluating-skills](https://agentskills.io/skill-creation/evaluating-skills) and [agentskills.io / optimizing-descriptions](https://agentskills.io/skill-creation/optimizing-descriptions).
 
 ## Files
 
