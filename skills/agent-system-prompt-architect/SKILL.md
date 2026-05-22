@@ -58,10 +58,13 @@ Pull fragments from `references/snippets.md` only when they change observable be
 ### Prompt vs runtime separation
 The agent only sees the words in the prompt. Restate every backend constraint as something the agent reads, decides, says, or refuses — in the same language the agent will use.
 
+Runtime details include both code-shaped artifacts and process-shaped descriptions. Rewrite implementation-stage language into the target agent's observable inputs and responsibility.
+
 Translation pattern (apply once per constraint the user gives you):
 
 | The user wrote | Rewrite as | Why |
 |---|---|---|
+| The upstream system has determined the user's intent and action result | “你会收到本次回复所需的已确认背景和结果。” | remove pipeline narration even when it is written in natural language |
 | `PushMessageDraft.risk_level` must come from upstream input | “沿用输入中给定的提醒级别，不要抬高或拉低。” | replace the schema field with the natural-language label the agent reads |
 | Don't decide `PushPolicy` | “只决定提醒的文案。是否发送、何时发送不由你决定。” | name the boundary as an agent decision, not a class name |
 | Upstream / downstream / policy module | “你收到的输入” / “后续系统” / drop entirely | the agent has no view of the pipeline; reframe as what it sees |
