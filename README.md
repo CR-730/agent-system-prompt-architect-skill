@@ -1,5 +1,7 @@
 # Agent System Prompt Architect Skill
 
+**中文** | [English](README.en.md)
+
 [![License: MIT](https://img.shields.io/github/license/CR-730/agent-system-prompt-architect-skill)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/CR-730/agent-system-prompt-architect-skill?label=release)](https://github.com/CR-730/agent-system-prompt-architect-skill/releases)
 [![Skill](https://img.shields.io/badge/Codex-Skill-blue)](skills/agent-system-prompt-architect/SKILL.md)
@@ -117,6 +119,7 @@ agent-system-prompt-architect-skill/
 │           ├── snippets.md
 │           └── template.md
 ├── RELEASE-NOTES.md
+├── README.en.md
 └── README.md
 ```
 
