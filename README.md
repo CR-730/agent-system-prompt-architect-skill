@@ -3,8 +3,8 @@
 [![License: MIT](https://img.shields.io/github/license/CR-730/agent-system-prompt-architect-skill)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/CR-730/agent-system-prompt-architect-skill?label=release)](https://github.com/CR-730/agent-system-prompt-architect-skill/releases)
 [![Skill](https://img.shields.io/badge/Codex-Skill-blue)](skills/agent-system-prompt-architect/SKILL.md)
+[![Standard](https://img.shields.io/badge/Agent%20Skills-标准-brightgreen)](https://agentskills.io/specification)
 [![Docs](https://img.shields.io/badge/docs-中文-brightgreen)](README.md)
-[![Eval](https://img.shields.io/badge/eval-with_skill_0.917-success)](test/README.md)
 
 感谢佬的 star，初来乍到可能很多地方不规范，有问题或者建议可以在 issues 跟我提(非常欢迎)，我会尽快跟进。
 
@@ -19,7 +19,6 @@
 - [核心能力](#核心能力)
 - [安装](#安装)
 - [使用示例](#使用示例)
-- [评估](#评估)
 - [仓库结构](#仓库结构)
 - [核心设计](#核心设计)
 - [参考](#参考)
@@ -55,19 +54,21 @@
 
 ## 安装
 
-推荐按 [.codex/INSTALL.md](.codex/INSTALL.md) 安装，它包含 macOS / Linux / Windows 的 clone、链接、验证、更新和卸载步骤。
+推荐按 [.codex/INSTALL.md](.codex/INSTALL.md) 安装，它包含 macOS / Linux / Windows 的 clone、链接、验证、更新和卸载步骤，以及仓库级安装（`.agents/skills/`）和其他平台（如 Claude Code）的说明。
 
-快速复制安装：
+快速复制安装（用户级，当前 Codex 约定路径）：
 
 ```powershell
-$dest = "$env:USERPROFILE\.codex\skills\agent-system-prompt-architect"
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\skills"
+$dest = "$env:USERPROFILE\.agents\skills\agent-system-prompt-architect"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.agents\skills"
 if (Test-Path $dest) {
   Write-Error "Skill already exists: $dest"
   exit 1
 }
-Copy-Item -Recurse -Path .\skills\agent-system-prompt-architect -Destination "$env:USERPROFILE\.codex\skills"
+Copy-Item -Recurse -Path .\skills\agent-system-prompt-architect -Destination "$env:USERPROFILE\.agents\skills"
 ```
+
+> 旧版本 Codex 的 skill 目录是 `~/.codex/skills`，如果你的版本较旧，把上面命令里的 `.agents` 换成 `.codex`。
 
 安装后重启 Codex，让它重新发现 skill。
 
@@ -93,26 +94,6 @@ Copy-Item -Recurse -Path .\skills\agent-system-prompt-architect -Destination "$e
 先帮我判断它的系统提示词应该包含哪些模块，不要急着写完整 prompt。
 ```
 
-## 评估
-
-本仓库带有自动化评估用例和运行脚本，用于比较使用 skill和不使用 skill的差异。
-
-当前内部基准结果：
-
-- 模型：`mimo-v2.5-pro`
-- 质量评估：with skill 平均通过率 `0.917`，without skill 平均通过率 `0.554`
-- 触发评估：14 / 14 通过
-- 结果文件：`evals-workspace/iteration-006/benchmark.json`
-
-运行 smoke test：
-
-```powershell
-uv sync
-uv run python scripts\run_skill_evals.py --quality --triggers --with-baseline --limit 1 --iteration smoke-001
-```
-
-完整评估说明见 [test/README.md](test/README.md)。
-
 ## 仓库结构
 
 ```text
@@ -135,12 +116,6 @@ agent-system-prompt-architect-skill/
 │           ├── research_agent_template.md
 │           ├── snippets.md
 │           └── template.md
-├── test/
-│   ├── evals.json
-│   ├── triggers.json
-│   └── README.md
-├── scripts/
-│   └── run_skill_evals.py
 ├── RELEASE-NOTES.md
 └── README.md
 ```
@@ -151,10 +126,10 @@ agent-system-prompt-architect-skill/
 3. 引入领域适配清单，让 agent 根据目标用户、任务、资料来源、工具副作用、输出格式和安全边界做领域适配。
 4. 把具体代码名词翻译成 agent 可执行的行为规则。
 5. 针对多类 agent 能力提供标准模板，如检索增强、代码执行、客服支持、研究分析等场景。
-6. 配套评估脚本和测试用例，用是否使用 skill 两种情况验证 skill 是否真的改善系统提示词质量。
 
 ## 参考
 
+- [Agent Skills 开放标准](https://agentskills.io/specification)
 - [Anthropic Skills](https://github.com/anthropics/skills)
 - [Prompt Engineering Notes](https://www.aneasystone.com/archives/2024/01/prompt-engineering-notes.html)
 

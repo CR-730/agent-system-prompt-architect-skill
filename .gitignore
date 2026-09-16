@@ -9,6 +9,3 @@ __pycache__/
 node_modules/
 .env
 prohibit_commit/
-
-# Eval run artifacts; the test definitions in test/ stay tracked.
-evals-workspace/

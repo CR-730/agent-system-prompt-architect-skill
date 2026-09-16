@@ -1,5 +1,21 @@
 # 发布说明
 
+## v0.2 - 2026-09-16
+
+对照 Agent Skills 开放标准（agentskills.io）和最新 skill 编写指南做的一次规范化维护。
+
+### 改进
+
+- 安装路径更新为 Codex 新约定：`~/.agents/skills`（用户级）与 `.agents/skills`（仓库级），旧版 `~/.codex/skills` 保留说明；新增 Claude Code 等兼容平台的安装提示。
+- `description` 改写为第三人称能力陈述 + 触发场景结构，补充中文触发词（系统提示词、角色设定、提示词改写等）和负向触发边界，提升跨模型触发稳定性。
+- frontmatter 补充 `license: MIT`，与仓库 LICENSE 一致。
+- README 参考链接新增 Agent Skills 开放标准。
+
+### 移除
+
+- 移除自动化评估体系（`test/`、`scripts/`、`pyproject.toml`、`uv.lock`）：回归主流 skill 形态，评估不再随仓库分发。
+- skill 内部的写作质量检查清单 `references/evaluation.md` 保留不变，它属于 skill 功能本体（初稿自检流程），不受影响。
+
 ## v0.1 - 2026-05-21
 
 首个公开版本，重点是把 skill 从“能生成系统提示词”推进到“能稳定生成可部署、可评估、少幻觉的 agent 系统提示词”。

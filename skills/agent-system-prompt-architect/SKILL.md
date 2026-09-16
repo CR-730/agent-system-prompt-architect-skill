@@ -1,6 +1,7 @@
 ---
 name: agent-system-prompt-architect
-description: Use when designing, reviewing, revising, or templating deployable system prompts for agent projects, especially prompts needing clear roles, task boundaries, tool-use rules, evidence handling, output formats, safety behavior, or compact runtime-ready structure.
+description: Designs, reviews, revises, and templates deployable system prompts for agent projects. Use whenever the user asks to write, improve, review, or debug an agent's system prompt, system message, or role/boundary instructions — including Chinese requests such as 系统提示词、角色设定、角色和边界规范、提示词改写 — and schema-driven requests where an agent must output a given class or JSON structure. Especially for prompts needing clear roles, task boundaries, tool-use rules, evidence handling, output formats, safety behavior, or compact runtime-ready structure. Do NOT use for one-off chat prompts, marketing copy, or general prompt-engineering Q&A.
+license: MIT
 ---
 # Agent System Prompt Architect
 
