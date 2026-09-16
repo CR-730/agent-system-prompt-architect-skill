@@ -11,6 +11,10 @@
 - frontmatter 补充 `license: MIT`，与仓库 LICENSE 一致。
 - README 参考链接新增 Agent Skills 开放标准。
 
+### 文档
+
+- 新增 `README.en.md` 英文版首页，与中文 README 顶部互相链接实现语言切换（GitHub 会剥离 Markdown 中的脚本，双文件是社区标准做法），仓库结构章节同步补充。
+
 ### 移除
 
 - 移除自动化评估体系（`test/`、`scripts/`、`pyproject.toml`、`uv.lock`）：回归主流 skill 形态，评估不再随仓库分发。
